@@ -1,0 +1,11 @@
+{
+  "name": "assgment",
+  "version": "1.0.0",
+  "description": "projrct for training ",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC"
+}
