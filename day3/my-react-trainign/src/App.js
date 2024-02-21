@@ -7,8 +7,10 @@ function App() {
   return (
     <div className="container mx-auto">
       <Header />
-      <div class="bg-white p-5 text-center">
-        <h1 class="text-3xl mb-6">We are at the heart of appropriate Care</h1>
+      <div className="bg-white p-5 text-center">
+        <h1 className="text-3xl mb-6">
+          We are at the heart of appropriate Care
+        </h1>
         <Body />
       </div>
       <Forter />
