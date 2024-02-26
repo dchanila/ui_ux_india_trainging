@@ -6,6 +6,7 @@ import UserSignup from "./SignUp/UserSignup";
 import LoginAsCoach from "./SignIn/LoginAsCoach";
 import LoginAsUser from "./SignIn/LoginAsUser";
 import Welcomeuser from "./welcome/Welcomuser";
+import WelcomeCoach from "./welcome/WelcomeCoach";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/loginAsCoach" element={<LoginAsCoach />} />
         <Route path="/loginAsUser" element={<LoginAsUser />} />
         <Route path="/welcome-user" element={<Welcomeuser />} />
+        <Route path="/welcome-coach" element={<WelcomeCoach />} />
       </Routes>
     </BrowserRouter>
   );

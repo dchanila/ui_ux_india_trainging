@@ -1,6 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-function CoachSignUp() {
+function UserSignup() {
+  const navigateToPost = useNavigate();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm();
+  const [userForm, setUserForm] = useState({
+    name: "",
+    dob: "",
+    mobile: "",
+    password: "",
+    gender: "",
+    Speciality: "",
+  });
+
+  const handleChange = (e) => {
+    setUserForm({ ...userForm, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = (data) => {
+    axios
+      .post("http://localhost:8000/api/items", data)
+      .then((res) => {
+        console.log(res.data);
+        setUserForm({
+          name: "",
+          dob: "",
+          mobile: "",
+          password: "",
+          gender: "",
+          email: "",
+        });
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+    navigateToPost("/welcome-coach");
+  };
+
   return (
     <div className="w-full bg-light">
       <nav className="bg-body-tertiary w-full">
@@ -9,111 +51,180 @@ function CoachSignUp() {
           <div className="contact text-white">Call Us : 080 2233447</div>
         </div>
       </nav>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="py-5 text-center bg-gray-700 mt-5 w-5/6 mx-auto rounded-lg">
+          <img
+            src="image/coach-1.png"
+            className="rounded-full mx-auto w-48"
+            alt="Coach Image"
+          />
+          <h1 className="text-white text-4xl font-bold mb-1 w-full">
+            User Profile
+          </h1>
+          <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 h-100">
+            <div className="rounded-lg py-5 px-4 shadow-md">
+              {/* Name */}
+              <label
+                htmlFor="name"
+                className="block text-white text-sm font-bold mb-1 text-left mt-1"
+              >
+                Name
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                placeholder="Enter your name"
+                {...register("name", { required: "Name cannot be empty" })}
+                value={userForm.name}
+                onChange={handleChange}
+              />
+              <div className="text-sm text-red-500">
+                {errors.name && errors.name.message}
+              </div>
 
-      <div className="py-10 text-center bg-gray-700 mt-20  w-5/6 mx-auto mt-20 rounded-lg">
-        <img
-          src="image/coach-1.png"
-          className="rounded-full mx-auto w-48"
-          alt="Coach Image"
-        />
-        <h1 className="text-white text-4xl font-bold mb-8 w-full">
-          Life Coach Profile
-        </h1>
-        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 h-100">
-          <div className="rounded-lg py-8 px-4 shadow-md">
-            <label
-              className="block text-white text-sm font-bold mb-2 text-left mt-3"
-              htmlFor="name"
-            >
-              Name
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="name"
-              type="text"
-              placeholder="Enter your name"
-            />
-            <label
-              className="block text-white text-sm font-bold mb-2 text-left mt-3"
-              htmlFor="dob"
-            >
-              Date of Birth
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="dob"
-              type="text"
-              placeholder="Enter your date of birth"
-            />
-            <label
-              className="block text-white text-sm font-bold mb-2 text-left mt-3"
-              htmlFor="mobile"
-            >
-              Mobile Number
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="mobile"
-              type="text"
-              placeholder="Enter your mobile number"
-            />
+              {/* Date of Birth */}
+              <label
+                htmlFor="dob"
+                className="block text-white text-sm font-bold mb-1 text-left mt-1"
+              >
+                Date of Birth
+              </label>
+              <input
+                id="dob"
+                name="dob"
+                type="date"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                {...register("dob", {
+                  required: "Date of Birth cannot be empty",
+                })}
+                value={userForm.dob}
+                onChange={handleChange}
+              />
+              <div className="text-sm text-red-500">
+                {errors.dob && errors.dob.message}
+              </div>
+
+              {/* Mobile Number */}
+              <label
+                htmlFor="mobile"
+                className="block text-white text-sm font-bold mb-1 text-left mt-1"
+              >
+                Mobile Number
+              </label>
+              <input
+                id="mobile"
+                name="mobile"
+                type="text"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                placeholder="Enter your mobile number"
+                {...register("mobile", {
+                  required: "Mobile number cannot be empty",
+                })}
+                value={userForm.mobile}
+                onChange={handleChange}
+              />
+              <div className="text-sm text-red-500">
+                {errors.mobile && errors.mobile.message}
+              </div>
+            </div>
+            <div className="rounded-lg py-8 px-4 shadow-md">
+              {/* Password */}
+              <label
+                htmlFor="password"
+                className="block text-white text-sm font-bold mb-1 text-left mt-1"
+              >
+                Password
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                placeholder="Enter your password"
+                {...register("password", {
+                  required: "Password cannot be empty",
+                })}
+                value={userForm.password}
+                onChange={handleChange}
+              />
+              <div className="text-sm text-red-500">
+                {errors.password && errors.password.message}
+              </div>
+
+              {/* Gender */}
+              <label
+                htmlFor="password"
+                className="block text-white text-sm font-bold mb-1 text-left mt-1"
+              >
+                Gender
+              </label>
+              <div className="mt-2">
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    className="form-radio"
+                    name="gender"
+                    value="male"
+                    {...register("gender", { required: "Gender is required" })}
+                    checked={userForm.gender === "male"}
+                    onChange={handleChange}
+                  />
+                  <span className="ml-2 text-white">Male</span>
+                </label>
+                <label className="inline-flex items-center ml-6">
+                  <input
+                    type="radio"
+                    className="form-radio"
+                    name="gender"
+                    value="female"
+                    {...register("gender", { required: "Gender is required" })}
+                    checked={userForm.gender === "female"}
+                    onChange={handleChange}
+                  />
+                  <span className="ml-2 text-white">Female</span>
+                </label>
+              </div>
+              <div className="text-sm text-red-500">
+                {errors.gender && errors.gender.message}
+              </div>
+
+              {/* Email */}
+              <label
+                htmlFor="Speciality"
+                className="block text-white text-sm font-bold mb-1 text-left mt-1"
+              >
+                Speciality
+              </label>
+              <input
+                id="Speciality"
+                name="Speciality"
+                type="text"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                placeholder="Enter your Speciality"
+                {...register("Speciality", {
+                  required: "Speciality cannot be empty",
+                })}
+                value={userForm.email}
+                onChange={handleChange}
+              />
+              <div className="text-sm text-red-500">
+                {errors.Speciality && errors.Speciality.message}
+              </div>
+            </div>
           </div>
-          <div className="rounded-lg py-8 px-4 shadow-md">
-            <label
-              className="block text-white text-sm font-bold mb-2 text-left mt-3"
-              htmlFor="password"
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              className="text-white bg-green-500 py-2 px-4 w-full max-w-sm rounded-lg mt-2"
             >
-              Password
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="password"
-              type="password"
-              placeholder="Enter your password"
-            />
-            <div className="flex items-center text-white mt-4">
-              <input
-                type="radio"
-                id="male"
-                name="gender"
-                className="form-radio h-5 w-5 text-blue-600"
-              />
-              <label htmlFor="male" className="ml-2">
-                Male
-              </label>
-            </div>
-            <div className="flex items-center text-white">
-              <input
-                type="radio"
-                id="female"
-                name="gender"
-                className="form-radio h-5 w-5 text-pink-600"
-              />
-              <label htmlFor="female" className="ml-2">
-                Female
-              </label>
-            </div>
-            <label
-              className="block text-white text-sm font-bold mb-2 text-left mt-4"
-              htmlFor="speciality"
-            >
-              Speciality
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="speciality"
-              type="text"
-              placeholder="Enter your speciality"
-            />
+              Register
+            </button>
           </div>
         </div>
-        <div className="flex justify-center">
-          <button className="text-white bg-green-500 py-2 px-4 w-full max-w-sm rounded-lg">
-            Register
-          </button>
-        </div>
-      </div>
-
+      </form>
+      {userForm.gender}
       <nav className="bg-body-tertiary fixed-bottom w-full">
         <div className="mx-auto flex justify-between py-4 bg-gray-700 w-full">
           <a href="#" className="text-white">
@@ -125,4 +236,4 @@ function CoachSignUp() {
   );
 }
 
-export default CoachSignUp;
+export default UserSignup;
